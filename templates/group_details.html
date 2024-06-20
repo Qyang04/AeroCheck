@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Details</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}
+        Group Details
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+        <h2>Group Passenger Details</h2>
+        <ul class="list-group">
+            <li class="list-group-item active">Representative</li>
+            <li class="list-group-item"><strong>Booking Number:</strong> {{ group.representative.booking_id }}</li>
+            <li class="list-group-item"><strong>ID:</strong> {{ group.representative.id }}</li>
+            <li class="list-group-item"><strong>Name:</strong> {{ group.representative.name }}</li>
+            <li class="list-group-item"><strong>Contact:</strong> {{ group.representative.contact }}</li>
+            <li class="list-group-item"><strong>Special Need:</strong> {{ group.representative.special_need }}</li>
+            <li class="list-group-item"><strong>Flight:</strong> {{ group.representative.flight.flight_number }} ({{ group.representative.flight.airline }})</li>
+            <li class="list-group-item"><strong>Departure:</strong> {{ group.representative.flight.departure_datetime }}</li>
+            <li class="list-group-item"><strong>Gate:</strong> {{ group.representative.flight.gate }}</li>
+        </ul>
+
+        <ul class="list-group mt-4">
+            <li class="list-group-item active">Group Members</li>
+            {% for member in group.members %}
+                <li class="list-group-item">
+                    <strong>Booking Number:</strong> {{ member.booking_id }} <br>
+                    <strong>ID:</strong> {{ member.id }} <br>
+                    <strong>Name:</strong> {{ member.name }} <br>
+                    <strong>Contact:</strong> {{ member.contact }} <br>
+                    <strong>Special Need:</strong> {{ member.special_need }} <br>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <form action="{{ url_for('generate_boarding_pass') }}" method="post">
+            <!-- Form fields for representative details -->
+            <button type="submit" class="btn">Confirm and Generate Boarding Pass</button>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

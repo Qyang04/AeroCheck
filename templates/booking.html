@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <title>Booking Number</title>
+</head>
+<body>
+    {% extends "base.html" %}
+
+    {% block title %}
+        Retrieve Booking
+    {% endblock %}
+
+    {% block content %}
+    <div class="container">
+        <h1>Enter Booking ID for {{ passenger_type|capitalize }} Check-In</h1>
+        <form action="{{ url_for('booking') }}" method="post">
+            <div class="form-group">
+                <input type="hidden" name="passenger_type" value="{{ passenger_type }}">
+                <label for="booking_id">Enter Your Booking Number:</label>
+                <input type="text" id="booking_id" name="booking_id" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Confirm</button>
+        </form>
+    </div>
+    {% endblock %}
+</body>
+</html>

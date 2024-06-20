@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boarding Pass</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .boarding-pass {
+            border: 2px solid #000;
+            padding: 20px;
+            width: 600px;
+            margin: 20px auto;
+        }
+        .boarding-pass h1 {
+            text-align: center;
+        }
+        .details {
+            margin-bottom: 20px;
+        }
+        .details div {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="boarding-pass">
+        <h1>Boarding Pass</h1>
+        <div class="details">
+            <div><strong>Passenger Name:</strong> {{ passenger.name }}</div>
+            <div><strong>Booking ID:</strong> {{ passenger.booking_id }}</div>
+            <div><strong>Flight Number:</strong> {{ passenger.flight.flight_number }}</div>
+            <div><strong>Airline:</strong> {{ passenger.flight.airline }}</div>
+            <div><strong>Departure:</strong> {{ passenger.flight.departure_datetime }}</div>
+            <div><strong>Gate:</strong> {{ passenger.flight.gate }}</div>
+            <div><strong>Seat:</strong> {{ passenger.seat }}</div>
+        </div>
+    </div>
+</body>
+</html>
+
