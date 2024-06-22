@@ -42,7 +42,9 @@
         </ul>
 
         <form action="{{ url_for('generate_boarding_pass') }}" method="post">
-            <!-- Form fields for representative details -->
+            <!-- add hidden input type to send passenger type and booking id for genarating boarding pass -->
+            <input type="hidden" name="passenger_type" value="group">
+            <input type="hidden" name="booking_id" value="{{ group.representative.booking_id }}">
             <button type="submit" class="btn">Confirm and Generate Boarding Pass</button>
         </form>
     </div>
