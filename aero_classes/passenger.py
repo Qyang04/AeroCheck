@@ -1,7 +1,6 @@
 from .special_need import SpecialNeed
 from .baggage import Baggage
 from typing import List
-
 class Passenger:
     def __init__(self, passengerID: str, name: str, contact: str, specialNeed: SpecialNeed = None):
         self.__passengerID = passengerID
@@ -9,6 +8,7 @@ class Passenger:
         self.__contact = contact
         self.__specialNeed = specialNeed
         self.__baggages = []
+        self.__seat = None
         
     # getter setter method
     def get_passengerID(self) -> str:
@@ -41,3 +41,9 @@ class Passenger:
         
     def get_baggage_list(self) -> List[Baggage]:
         return self.__baggages
+    
+    def get_seat(self) -> str:
+        return self.__seat
+    
+    def set_seat(self, seat: str):
+        self.__seat = seat

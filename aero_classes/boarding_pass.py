@@ -3,7 +3,7 @@ from .passenger import Passenger
 from .flight import Flight
 
 class BoardingPass:
-    def __init__(self, bookingID, passenger: Passenger, seat: str, flight:Flight):
+    def __init__(self, bookingID: str, passenger: Passenger, seat: str, flight:Flight):
         self.__bookingID = bookingID
         self.__passenger = passenger
         self.__seat = seat
@@ -18,7 +18,7 @@ class BoardingPass:
     def get_passenger(self) -> Passenger:
         return self.__passenger
     
-    def set_passenger(self, passenger:Passenger):
+    def set_passenger(self, passenger: Passenger):
         self.__passenger = passenger
         
     def get_seat(self) -> str:
@@ -41,5 +41,3 @@ class BoardingPass:
     
     def get_flight_date(self) -> datetime.date:
         return self.__flight.get_flight_date()
-    
-        
