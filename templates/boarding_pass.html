@@ -27,15 +27,15 @@
 </head>
 <body>
     <div class="boarding-pass">
-        <h1>Boarding Pass</h1>
         <div class="details">
-            <div><strong>Passenger Name:</strong> {{ passenger.name }}</div>
-            <div><strong>Booking ID:</strong> {{ passenger.booking_id }}</div>
-            <div><strong>Flight Number:</strong> {{ passenger.flight.flight_number }}</div>
-            <div><strong>Airline:</strong> {{ passenger.flight.airline }}</div>
-            <div><strong>Departure:</strong> {{ passenger.flight.departure_datetime }}</div>
-            <div><strong>Gate:</strong> {{ passenger.flight.gate }}</div>
-            <div><strong>Seat:</strong> {{ passenger.seat }}</div>
+            <div><strong>Passenger:</strong> {{ boarding_pass.passenger }}</div>
+            <div><strong>Origin:</strong> {{ boarding_pass.origin }}</div>
+            <div><strong>Destination:</strong> {{ boarding_pass.destination }}</div>
+            <div><strong>Flight:</strong> {{ boarding_pass.flight }}</div>
+            <div><strong>Depart Date:</strong> {{ boarding_pass.depart_date }}</div>
+            <div><strong>Boarding Time:</strong> {{ boarding_pass.boarding_time }}</div>
+            <div><strong>Gate:</strong> {{ boarding_pass.gate }}</div>
+            <div><strong>Seat:</strong> {{ boarding_pass.seat }}</div>
         </div>
     </div>
 </body>

@@ -8,8 +8,21 @@
 </head>
 <body>
     <div class="container">
-        <h1>Group Boarding Passes</h1>
-        
+        {% for boarding_pass in boarding_passes %}
+        <div class="boarding-pass">
+            <div class="details">
+                <div><strong>Passenger:</strong> {{ boarding_pass.passenger }}</div>
+                <div><strong>Origin:</strong> {{ boarding_pass.origin }}</div>
+                <div><strong>Destination:</strong> {{ boarding_pass.destination }}</div>
+                <div><strong>Flight:</strong> {{ boarding_pass.flight }}</div>
+                <div><strong>Depart Date:</strong> {{ boarding_pass.depart_date }}</div>
+                <div><strong>Boarding Time:</strong> {{ boarding_pass.boarding_time }}</div>
+                <div><strong>Gate:</strong> {{ boarding_pass.gate }}</div>
+                <div><strong>Seat:</strong> {{ boarding_pass.seat[0] }}</div>
+            </div>
+            <br>
+        </div>
+        {% endfor %}
     </div>
 </body>
 </html>
