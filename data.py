@@ -14,8 +14,8 @@ wheelchair = SpecialNeed(type="Wheelchair", assistance="Requires wheelchair assi
 blind = SpecialNeed(type="Blind", assistance="Requires assistance for visually impaired")
 
 # Create sample flights
-flight1 = Flight(flightNumber="A123", airline="AirFly", departureDateTime=datetime(2024, 5, 25, 15, 30), gate="A1", origin="CityA", destination="CityB")
-flight2 = Flight(flightNumber="B456", airline="UpHigh", departureDateTime=datetime(2024, 5, 26, 10, 45), gate="B2", origin="CityC", destination="CityD")
+flight1 = Flight(flightNumber="A123", airline="AirFly", departureDateTime=datetime(2024, 5, 25, 15, 30), arrivalDateTime = datetime(2024, 5, 25, 19, 45), gate="A1", origin="CityA", destination="CityB")
+flight2 = Flight(flightNumber="B456", airline="UpHigh", departureDateTime=datetime(2024, 5, 26, 10, 45), arrivalDateTime = datetime(2024, 5, 26, 13, 45), gate="B2", origin="CityC", destination="CityD")
 
 # Create sample passengers
 passenger1 = IndividualPassenger(passengerID="P001", name="John Doe", contact="john@gmail.com", specialNeed=wheelchair)
@@ -27,13 +27,20 @@ passenger5 = Passenger(passengerID="P005", name="Charlie Green", contact="charli
 # Create a group passenger
 group_passenger = GroupPassenger(groupID="G001", representative=passenger3, passengers=[passenger3, passenger4, passenger5])
 
-# Create sample baggage
-baggage1 = Baggage(baggageID="B001", weight=20.5, length=55.0, width=40.0, height=20.0, tagID="T001", trackingStatus="Checked in", screening=None)
-baggage2 = Baggage(baggageID="B002", weight=18.0, length=50.0, width=38.0, height=22.0, tagID="T002", trackingStatus="Checked in", screening=None)
-
 # Create sample screenings
-screening1 = Screening(screeningID="S001", status="Cleared", timestamp=datetime.utcnow())
-screening2 = Screening(screeningID="S002", status="Cleared", timestamp=datetime.utcnow())
+screening1 = Screening(screeningID="S001", status="Checked In", timestamp=datetime.utcnow())
+screening2 = Screening(screeningID="S002", status="Not Yet Check In", timestamp=datetime.utcnow())
+
+# Create sample baggage
+baggage1 = Baggage(baggageID="T001", weight=20.5, length=55.0, width=40.0, height=20.0, screening=screening1)
+baggage2 = Baggage(baggageID="T002", weight=18.0, length=50.0, width=38.0, height=22.0, screening=None)
+baggage3 = Baggage(baggageID="T003", weight=18.0, length=50.0, width=38.0, height=22.0, screening=None)
+baggage4 = Baggage(baggageID="T004", weight=18.0, length=50.0, width=38.0, height=22.0, screening=None)
+
+# add baggage to the passenger
+passenger1.add_baggage(baggage2)
+passenger4.add_baggage(baggage1)
+passenger4.add_baggage(baggage3)
 
 # set seat for each of the passenger
 passenger3.set_seat("10A")
