@@ -2,42 +2,128 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boarding Pass</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
-        .boarding-pass {
-            border: 2px solid #000;
-            padding: 20px;
-            width: 600px;
-            margin: 20px auto;
-        }
-        .boarding-pass h1 {
-            text-align: center;
-        }
-        .details {
-            margin-bottom: 20px;
-        }
-        .details div {
-            margin-bottom: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/boardingpass.css') }}">
 </head>
 <body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <ul class="flashes">
+        {% for category, message in messages %}
+        <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
     <div class="boarding-pass">
-        <div class="details">
-            <div><strong>Passenger:</strong> {{ boarding_pass.passenger }}</div>
-            <div><strong>Origin:</strong> {{ boarding_pass.origin }}</div>
-            <div><strong>Destination:</strong> {{ boarding_pass.destination }}</div>
-            <div><strong>Flight:</strong> {{ boarding_pass.flight }}</div>
-            <div><strong>Depart Date:</strong> {{ boarding_pass.depart_date }}</div>
-            <div><strong>Boarding Time:</strong> {{ boarding_pass.boarding_time }}</div>
-            <div><strong>Gate:</strong> {{ boarding_pass.gate }}</div>
-            <div><strong>Seat:</strong> {{ boarding_pass.seat }}</div>
+        <div class="boarding-pass_flight">
+          <div class="d-flex justify-between">
+              <div class="boarding-pass__flight-text--opaque"> {{ boarding_pass.origin }}</div>
+              <div class="boarding-pass__flight-text--opaque"> {{ boarding_pass.destination }}</div>
+          </div>
+
+          <div class="d-flex justify-between align-center">
+              <div class="boarding-pass__flight-text--big"> {{ boarding_pass.origin }}</div>
+              <div class="boarding-pass__flight-arrow">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-chevron-right" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M9 6l6 6l-6 6" />
+              </svg>
+          </div>
+          <div class="boarding-pass__flight-text--big"> {{ boarding_pass.destination }}</div>
+          </div>
+
+          <div class="d-flex justify-between">
+              <div class="boarding-pass__flight-text--opaque"> {{ boarding_pass.depart_date }}<br>{{ boarding_pass.depart_time}}</div>
+              <div>{{ boarding_pass.total_time.seconds // 3600 }}h {{ (boarding_pass.total_time.seconds % 3600) // 60 }}m</div>
+              <div class="boarding-pass__flight-text--opaque"> {{ boarding_pass.arrival_date }}<br>{{ boarding_pass.arrival_time}}</div>
+          </div>
+        </div>
+
+        <!-- Passenger Details -->
+        <div class="boarding-pass__details">
+          <div class="d-flex align-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M8 7a4 4 0 1 0 8 0a4 4 0 0 0 -8 0" />
+                <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+              </svg>
+              <div>
+                <div class="color--gray fs-12">Passenger</div>
+                <div class="color--almost-black"> {{ boarding_pass.passenger }}</div>
+              </div>
+          </div>
+          <div class="d-flex align-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-armchair" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M5 11a2 2 0 0 1 2 2v2h10v-2a2 2 0 1 1 4 0v4a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-4a2 2 0 0 1 2 -2z" />
+                <path d="M5 11v-5a3 3 0 0 1 3 -3h8a3 3 0 0 1 3 3v5" />
+                <path d="M6 19v2" />
+                <path d="M18 19v2" />
+              </svg>
+              <div>
+                <div class="color--gray fs-12">Seat</div>
+                <div class="color--almost-black"> {{ boarding_pass.seat }}</div>
+              </div>
+          </div>
+          <div class="d-flex align-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plane-inflight" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M15 11.085h5a2 2 0 1 1 0 4h-15l-3 -6h3l2 2h3l-2 -7h3l4 7z" />
+                <path d="M3 21h18" />
+              </svg>
+              <div>
+                <div class="color--gray fs-12">Flight No.</div>
+                <div class="color--almost-black"> {{ boarding_pass.flight }}</div>
+              </div>
+          </div>
+          <div class="d-flex align-center">
+              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-terminal-2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M8 9l3 3l-3 3" />
+                <path d="M13 15l3 0" />
+                <path d="M3 4m0 2a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2z" />
+              </svg>
+              <div>
+                <div class="color--gray fs-12">Gate</div>
+                <div class="color--almost-black"> {{ boarding_pass.gate }}</div>
+              </div>
+          </div>
+            <div class="d-flex align-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-plane-departure" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                <path d="M14.639 10.258l4.83 -1.294a2 2 0 1 1 1.035 3.863l-14.489 3.883l-4.45 -5.02l2.897 -.776l2.45 1.414l2.897 -.776l-3.743 -6.244l2.898 -.777l5.675 5.727z" />
+                <path d="M3 21h18" />
+                </svg>
+                    <div>
+                        <div class="color--gray fs-12">Boarding Time</div>
+                        <div class="color--almost-black">{{ boarding_pass.boarding_time }}</div>
+                    </div>
+                </div>
+        </div>
+
+        <div class="boarding-pass__qr-code">
+          <img src="qr-code.svg" alt="qr-code">
         </div>
     </div>
+    
+
+    {% if baggage_tags %}
+    <h2>Baggage Tags</h2>
+    {% for tag in baggage_tags %}
+    <div>
+        <p>Baggage ID: {{ tag.baggage_id }}</p>
+        <p>Weight: {{ tag.weight }} kg</p>
+        <p>Dimensions: {{ tag.dimensions }}</p>
+        <p>Screening Status: {{ tag.screening_status }}</p>
+        <p>Destination: {{ tag.destination }}</p>
+        <p>Flight Number: {{ tag.flight_number }}</p>
+        <p>Booking ID: {{ tag.booking_id }}</p>
+        <p>Passenger Name: {{ tag.passenger_name }}</p>
+    </div>
+    {% endfor %}
+    {% endif %}
 </body>
 </html>
-
