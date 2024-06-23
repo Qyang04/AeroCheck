@@ -1,14 +1,12 @@
 from .screening import Screening
 
 class Baggage:
-    def __init__(self, baggageID: str, weight: float, length: float, width: float, height: float, tagID: str, trackingStatus: str, screening: Screening):
+    def __init__(self, baggageID: str, weight: float, length: float, width: float, height: float, screening: Screening):
         self.__baggageID = baggageID
         self.__weight = weight
         self.__length = length
         self.__width = width
         self.__height = height
-        self.__tagID = tagID
-        self.__trackingStatus = trackingStatus
         self.__screening = screening
 
     def get_baggageID(self) -> str:
@@ -44,18 +42,6 @@ class Baggage:
     # method to get the dimension of the baggage in the form like 55.0 x 40.0 x 20.0
     def get_dimensions(self) -> tuple:
         return f"{self.__length} x {self.__width} x {self.__height}"
-
-    def get_tagID(self) -> str:
-        return self.__tagID
-
-    def set_tagID(self, tagID: str):
-        self.__tagID = tagID
-
-    def get_trackingStatus(self) -> str:
-        return self.__trackingStatus
-
-    def set_trackingStatus(self, trackingStatus: str):
-        self.__trackingStatus = trackingStatus
 
     def get_screening(self) -> Screening:
         return self.__screening

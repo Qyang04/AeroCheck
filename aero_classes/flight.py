@@ -1,10 +1,11 @@
 from datetime import datetime, timedelta
 
 class Flight:
-    def __init__(self, flightNumber: str, airline: str, departureDateTime: datetime, gate: str, origin: str, destination: str):
+    def __init__(self, flightNumber: str, airline: str, departureDateTime: datetime, arrivalDateTime: datetime, gate: str, origin: str, destination: str):
         self.__flightNumber = flightNumber
         self.__airline = airline
         self.__departureDateTime = departureDateTime
+        self.__arrivalDateTime = arrivalDateTime
         self.__gate = gate
         self.__origin = origin
         self.__destination = destination
@@ -28,6 +29,12 @@ class Flight:
     def set_departure_datetime(self, departureDateTime: datetime):
         self.__departureDateTime = departureDateTime
         self.__boardingTime = self.__departureDateTime - timedelta(minutes=40)
+        
+    def get_arrival_datetime(self) -> datetime:
+        return self.__arrivalDateTime
+    
+    def set_arrival_datetime(self, arrivalDateTime: datetime):
+        self.__arrivalDateTime = arrivalDateTime
         
     def get_gate(self) -> str:
         return self.__gate
