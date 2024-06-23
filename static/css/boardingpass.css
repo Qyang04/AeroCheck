@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400&display=swap');
+
+body {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  min-height: 100vh;
+  font-family: 'Nunito', sans-serif;
+}
+
+.d-flex {
+  display: flex;
+}
+
+.justify-between {
+  justify-content: space-between;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.color--gray {
+  color: rgb(209, 209, 209);
+}
+
+.color--almost-black {
+  color: #5a5a5a;
+}
+
+.fs-12 {
+  font-size: 12px;
+}
+
+.boarding-pass {
+  background: white;
+  box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
+  border-radius: 10px;
+  margin: 0 5px;
+}
+
+@media (min-width: 800px) {
+  .boarding-pass {
+    width: 800px;
+  }
+}
+
+.boarding-pass_flight {
+  background: #141E30;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, #243B55, #141E30);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, #243B55, #141E30); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.boarding-pass__flight-text--big {
+  font-size: 36px;
+  font-weight: 300;
+}
+
+.boarding-pass__flight-text--opaque {
+  color: rgb(255 255 255 / 50%);
+}
+
+.boarding-pass__flight-arrow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.boarding-pass__flight-arrow::before,
+.boarding-pass__flight-arrow::after {
+  content: '';
+  width: 60px;
+  height: 1px;
+  background: rgb(255 255 255 / 50%);
+}
+
+.boarding-pass__flight-arrow svg {
+  width:  32px;
+  height: 32px;
+}
+
+.boarding-pass__details {
+  display: flex;
+  justify-content: space-between;
+  gap: 25px;
+  padding: 20px;
+  flex-wrap: wrap; 
+}
+
+.boarding-pass__details > div svg {
+  background: linear-gradient(to bottom, #243B55, #141E30);
+  stroke: #e3e3e3;
+  padding: 5px;
+  border-radius: 50%;
+  margin-right: 5px;
+}
+
+.boarding-pass__qr-code {
+  display: flex;
+  justify-content: center;
+}
+
+.boarding-pass__info {
+  text-align: center;
+  font-size: 14px;
+  margin: 20px;
+}
