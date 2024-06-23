@@ -6,10 +6,6 @@ from aero_classes.boarding_pass import BoardingPass
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
-def generate_baggage_id(booking_id: str, count: int) -> str:
-    return f"{booking_id}_T{count:03d}"
-
-
 # Fetch individual passenger details by booking ID
 def fetch_individual_passenger_details(booking_id):
     for boarding_pass in data['boarding_passes']:
