@@ -70,7 +70,7 @@
 
           <div class="d-flex justify-between">
               <div class="boarding-pass__flight-text--opaque"> {{ boarding_pass.depart_date }}<br>{{ boarding_pass.depart_time}}</div>
-              <div>{{ boarding_pass.total_time.seconds // 3600 }}h {{ (boarding_pass.total_time.seconds % 3600) // 60 }}m</div>
+              <div>{{ boarding_pass.total_time_seconds // 3600 }}h {{ (boarding_pass.total_time_seconds % 3600) // 60 }}m</div>
               <div class="boarding-pass__flight-text--opaque"> {{ boarding_pass.arrival_date }}<br>{{ boarding_pass.arrival_time}}</div>
           </div>
         </div>
@@ -138,11 +138,12 @@
         </div>
 
         <div class="boarding-pass__qr-code">
-          <img src="qr-code.svg" alt="qr-code">
+          <img src="data:image/png;base64,{{ qr_code_image }}" alt="QR Code">
         </div>
     </div>
+    <br><br>
+
     <!--Display Baggage tags-->
-    <br><br><br>
     {% if baggage_tags %}
     {% for tag in baggage_tags %}
     <div class="max-w-sm w-full border border-gray-400 p-4">
@@ -171,7 +172,7 @@
       <div class="text-gray-700 mb-2"><strong>BAGGAGE ID:</strong></div>
       <div class="text-4xl font-bold text-center mb-4">{{ tag.baggage_id }}</div>
       <div class="diagonal-stripes h-24"></div>
-  </div>
+  </div><br><br>
   {% endfor %}
   {% endif %}
 </body>

@@ -1,7 +1,11 @@
+import qrcode
+import json
+from io import BytesIO
 from flask import Flask, render_template, request, redirect, url_for, flash
 from data import data
 from aero_classes.group_pass import GroupPassenger
 from aero_classes.boarding_pass import BoardingPass
+import base64
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'
@@ -139,6 +143,22 @@ def generate_boarding_pass():
     baggage_tags = []
     baggage_not_checked_in = False
 
+    # method to create qr for bp
+    def generate_qr_code(data):
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=4,
+            border=9,
+        )
+        qr.add_data(data)
+        qr.make(fit=True)
+        img = qr.make_image(fill_color="black", back_color="white")
+        buffer = BytesIO()
+        img.save(buffer, format="PNG")
+        buffer.seek(0)
+        return buffer
+    
     if passenger_type == 'individual':
         passenger = fetch_individual_passenger_details(booking_id)
         if passenger:
@@ -161,6 +181,7 @@ def generate_boarding_pass():
             if baggage_not_checked_in:
                 flash("Some of your baggage has not been checked in.", 'warning')
             flight = passenger['flight']
+            total_time = flight['arrival_datetime'] - flight['departure_datetime']
             boarding_pass_details = {
                 'passenger': passenger['name'],
                 'origin': flight['origin'],
@@ -170,12 +191,21 @@ def generate_boarding_pass():
                 'depart_time': flight['departure_datetime'].strftime("%H:%M"),
                 'arrival_date': flight['arrival_datetime'].strftime("%b %d, %Y"),
                 'arrival_time': flight['arrival_datetime'].strftime("%H:%M"),
-                'total_time': (flight['arrival_datetime']-flight['departure_datetime']),
+                'total_time_seconds': int(total_time.total_seconds()),  # Ensure it's an integer
                 'boarding_time': flight['boarding_time'],
                 'gate': flight['gate'],
                 'seat': passenger['seat']
             }
-            return render_template('boarding_pass.html', boarding_pass=boarding_pass_details, baggage_tags=baggage_tags)
+            qr_data = json.dumps(boarding_pass_details)
+            qr_code_image = generate_qr_code(qr_data)
+            try:
+                qr_code_image_base64 = base64.b64encode(qr_code_image.getvalue()).decode('utf-8')
+            except Exception as e:
+                flash(f"Error encoding QR code image: {str(e)}", 'error')
+                return redirect(url_for('index'))
+
+            # Now pass qr_code_image_base64 to the template
+            return render_template('boarding_pass.html', boarding_pass=boarding_pass_details, baggage_tags=baggage_tags, qr_code_image=qr_code_image_base64)
         else:
             flash("Booking Number not found for individual passenger.", 'error')
             return redirect(url_for('booking', passenger_type=passenger_type))
@@ -185,6 +215,7 @@ def generate_boarding_pass():
         if group:
             boarding_passes = []
             baggage_tags_collected = set()  # To avoid duplicates
+            qr_code_images = []
 
             for member in group['members']:
                 for boarding_pass in data['boarding_passes']:
@@ -211,21 +242,29 @@ def generate_boarding_pass():
                 flash("Some of your group's baggage has not been checked in.", 'warning')
             for member in group['members']:
                 flight = member['flight']
+                total_time = flight['arrival_datetime'] - flight['departure_datetime']
                 boarding_passes.append({
                     'passenger': member['name'],
                     'origin': flight['origin'],
                     'destination': flight['destination'],
                     'flight': flight['flight_number'],
-                    'depart_date': flight['departure_datetime'].strftime('%Y-%m-%d'),
+                    'depart_date': flight['departure_datetime'].strftime("%b %d, %Y"),
                     'depart_time': flight['departure_datetime'].strftime("%H:%M"),
                     'arrival_date': flight['arrival_datetime'].strftime("%b %d, %Y"),
                     'arrival_time': flight['arrival_datetime'].strftime("%H:%M"),
-                    'total_time': (flight['arrival_datetime']-flight['departure_datetime']),
+                    'total_time_seconds': int(total_time.total_seconds()),  # Ensure it's an integer
                     'boarding_time': flight['boarding_time'],
                     'gate': flight['gate'],
                     'seat': member['seat']
                 })
-            return render_template('boarding_pass_group.html', boarding_passes=boarding_passes, baggage_tags=baggage_tags)
+            qr_data = json.dumps(boarding_passes)
+            qr_code_image = generate_qr_code(qr_data)
+            try:
+                qr_code_image_base64 = base64.b64encode(qr_code_image.getvalue()).decode('utf-8')
+            except Exception as e:
+                flash(f"Error encoding QR code image: {str(e)}", 'error')
+                return redirect(url_for('index'))
+            return render_template('boarding_pass_group.html', boarding_passes=boarding_passes, baggage_tags=baggage_tags, qr_code_image=qr_code_image_base64)
         else:
             flash("Booking Number not found for group.", 'error')
             return redirect(url_for('booking', passenger_type=passenger_type))

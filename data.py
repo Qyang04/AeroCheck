@@ -41,6 +41,7 @@ baggage4 = Baggage(baggageID="T004", weight=18.0, length=50.0, width=38.0, heigh
 passenger1.add_baggage(baggage2)
 passenger4.add_baggage(baggage1)
 passenger4.add_baggage(baggage3)
+passenger5.add_baggage(baggage4)
 
 # set seat for each of the passenger
 passenger3.set_seat("10A")
